@@ -1,0 +1,23 @@
+{
+    "name": "miwaniec/ifirma-api",
+    "description": "IFirmaApi is a wrapper for official iFirma API. IFirma is one of the most popular internet accounting systems in Poland.",
+    "keywords": ["PHP", "ifirma", "api", "invoice"],
+    "homepage": "https://github.com/miwaniec/ifirmaapi",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Marcin Iwaniec",
+            "email": "miwaniec@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.6.0|^7.0.0",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": { "IFirmaApi\\": "src/" }
+    }
+}
