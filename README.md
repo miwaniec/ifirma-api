@@ -6,6 +6,14 @@ If you need support or integration, not hesitate to contact me (miwaniec@gmail.c
 It is part of most useful API functions.
 Check examples below (more in [example.php](src/example.php)).
 
+Installation
+------------
+```bash
+composer require miwaniec/ifirma-api
+```
+
+Usage
+-----
 1. Get accountancy month (current value in system)
 ```
 $account = new \IFirmaApi\Account('login', 'key');
