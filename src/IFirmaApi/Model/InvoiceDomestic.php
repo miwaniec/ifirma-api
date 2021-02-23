@@ -13,8 +13,9 @@ class InvoiceDomestic extends InvoiceBase {
      * @param string $date format Y-m-d
      * @param int $daysForPay
      * @param string $clientNipPrefix
+     * @param string $clientId
      */
-    public function __construct($clientNip, $date = 'today', $daysForPay = NULL, $clientNipPrefix = '' ) {
+    public function __construct($clientNip, $date = 'today', $daysForPay = NULL, $clientNipPrefix = '', $clientId = '' ) {
 
         if( $date == 'today' ) {
             $date = date('Y-m-d');
@@ -34,6 +35,7 @@ class InvoiceDomestic extends InvoiceBase {
 
         $this->data['PrefiksUEKontrahenta'] = $clientNipPrefix;
         $this->data['NIPKontrahenta'] = $clientNip;
+        $this->data['IdentyfikatorKontrahenta'] = $clientId;
 
         if( $daysForPay != NULL ) {
             $this->data['TerminPlatnosci'] = date('Y-m-d', strtotime($date . '+'. $daysForPay .' days'));
@@ -48,7 +50,6 @@ class InvoiceDomestic extends InvoiceBase {
         $this->data['PodpisWystawcy'] = '';
         $this->data['Uwagi'] = '';
         $this->data['WidocznyNumerBdo'] = '';
-        $this->data['IdentyfikatorKontrahenta'] = '';
     }
 
 }
