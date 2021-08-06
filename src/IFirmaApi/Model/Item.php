@@ -14,7 +14,7 @@ class Item extends Base {
      * @param string $vatType PRC or ZW
      * @param string $gtu
      */
-    public function __construct($name, $price, $quantity = 1, $unit = 'usł.', $vat = 0.23, $pkwiu = '', $vatType = 'PRC', $gtu = 'BRAK') {
+    public function __construct($name, $price, $quantity = 1, $unit = 'usł.', $vat = 0.23, $pkwiu = '', $vatType = 'PRC', $gtu = 'BRAK', $base = '') {
 
         $this->data['StawkaVat'] = $vat;
         $this->data['Ilosc'] = $quantity;
@@ -24,6 +24,9 @@ class Item extends Base {
         $this->data['PKWiU'] = $pkwiu;
         $this->data['TypStawkiVat'] = $vatType;
         $this->data['GTU'] = $gtu;
+
+        if(!empty($base))
+          $this->data['PodstawaPrawna'] = $base;
     }
 
     /**
