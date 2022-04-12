@@ -21,4 +21,9 @@ abstract class InvoiceBase extends Base {
         $this->data['Kontrahent'] = $contractor;
     }
 
+    public function setJpkProcedures(JpkProcedures $jpkProcedures) {
+
+        $this->data['ProceduryJpk'] = $jpkProcedures;
+    }
+
 }
