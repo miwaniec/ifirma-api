@@ -6,7 +6,7 @@ If you need help, please create an issue in this repository.
 It is part of most useful API functions.
 Check examples below (more in [example.php](src/example.php)).
 
-Installation
+Installation - https://packagist.org/packages/miwaniec/ifirma-api
 ------------
 ```bash
 composer require miwaniec/ifirma-api
