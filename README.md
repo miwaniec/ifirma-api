@@ -1,8 +1,8 @@
 # IFirmaApi
-The wrapper in PHP for official [iFirma API](http://api.ifirma.pl/) (in polish). IFirma is one of the most popular internet accounting systems in Poland.
-API functions and fields are in polish, names in my code are in english for better understanding.
-Originally created at the end of 2017 for internal projects, published in March 2019 here.
-If you need support or integration, not hesitate to contact me (miwaniec@gmail.com).
+The wrapper in PHP for official [iFirma API](http://api.ifirma.pl/) (in Polish). IFirma is one of the most popular internet accounting systems in Poland.
+API functions and fields are in Polish, names in my code are in English for better understanding.
+Created at the end of 2017 for internal projects, published in March 2019 here.
+If you need help, please create an issue in this repository.
 It is part of most useful API functions.
 Check examples below (more in [example.php](src/example.php)).
 
