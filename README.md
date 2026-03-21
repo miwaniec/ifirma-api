@@ -27,7 +27,13 @@ $invoice = new \IFirmaApi\Invoice('login', 'key');
 $invoceDomestic = new \IFirmaApi\Model\InvoiceDomestic('123456789', '2019-01-01', 7);
 $invoceDomestic->addItem( new \IFirmaApi\Model\Item('IT support', 100, 3));
 $response = $invoice->add( $invoceDomestic );
-echo 'Invoice ID: '. $response->get('Identyfikator');
+$invoiceId = $response->get('Identyfikator');
+echo 'Invoice ID: ' . $invoiceId;
+```
+
+optionally, you can send invoice to KSeF right after adding (if you have KSeF enabled in your account)
+```
+$invoice->sendToKsef($invoiceId);
 ```
 
 3. Download invoice
