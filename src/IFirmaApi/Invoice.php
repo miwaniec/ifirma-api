@@ -27,6 +27,17 @@ class Invoice extends IFirmaApi
         ]);
     }
 
+    public function sendToKsef($idOrNumber, $type = InvoiceDomestic::PATH)
+    {
+        $id = self::encodeNumber($idOrNumber);
+
+        return $this->request(
+            $type . '/ksef/send/' . $id . '.json',
+            self::REQUEST_TYPE_POST,
+            json_encode(["DataWysylki" => null])
+        );
+    }
+
     public function get($idOrNumber, $type = InvoiceDomestic::PATH)
     {
         $id = self::encodeNumber($idOrNumber);
