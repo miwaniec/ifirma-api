@@ -2,10 +2,11 @@
 
 namespace IFirmaApi\Model;
 
-class Contractor extends Base {
+class Contractor extends Base
+{
 
-    public function __construct($name, $nip, $street, $postcode, $city, $email = NULL, $phone = NULL) {
-
+    public function __construct($name, $nip, $street, $postcode, $city, $email = NULL, $phone = NULL)
+    {
         $this->data['Nazwa'] = $name;
         $this->data['NIP'] = $nip;
         $this->data['Ulica'] = $street;
@@ -23,5 +24,4 @@ class Contractor extends Base {
         $this->data['JestOdbiorca'] = NULL;
         $this->data['JestDostawca'] = NULL;
     }
-
 }

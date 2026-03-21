@@ -2,13 +2,14 @@
 
 namespace IFirmaApi;
 
-abstract class IFirmaApi {
-
+abstract class IFirmaApi
+{
     private $apiUrl = 'https://www.ifirma.pl/iapi/';
 
     protected $apiKeyName;
     private $apiLogin;
     private $apiKey;
+    private $isDebug;
 
     private $curlTimeoutValue = 300;
     private $curlConnectTimeoutValue = 100;
@@ -21,18 +22,18 @@ abstract class IFirmaApi {
     const RESPONSE_TYPE_PDF = 'pdf';
     const RESPONSE_TYPE_XML = 'xml';
 
-    protected function __construct($login, $key) {
-
+    protected function __construct($login, $key, $isDebug = false)
+    {
         $this->apiLogin = $login;
         $this->apiKey = $key;
-
+        $this->isDebug = $isDebug;
     }
 
-    public static function hmac($key, $data) {
-
+    public static function hmac($key, $data)
+    {
         $blocksize = 64;
         $hashfunc = 'sha1';
-        if(strlen($key) > $blocksize) {
+        if (strlen($key) > $blocksize) {
             $key = pack('H*', $hashfunc($key));
         }
         $key = str_pad($key, $blocksize, chr(0x00));
@@ -43,17 +44,18 @@ abstract class IFirmaApi {
         return bin2hex($hmac);
     }
 
-    public static function hexToStr($hex) {
-
+    public static function hexToStr($hex)
+    {
         $string = '';
-        for ($i = 0; $i < strlen($hex) - 1; $i+=2) {
+        for ($i = 0; $i < strlen($hex) - 1; $i += 2) {
             $string .= chr(hexdec($hex[$i] . $hex[$i + 1]));
         }
+
         return $string;
     }
 
-    private function curlInit($type, $url, $headers, $requestContent) {
-
+    private function curlInit($type, $url, $headers, $requestContent)
+    {
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_TIMEOUT, $this->curlTimeoutValue);
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->curlConnectTimeoutValue);
@@ -61,63 +63,71 @@ abstract class IFirmaApi {
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-                
-        if( $type == self::REQUEST_TYPE_GET ) {
+
+        if ($type == self::REQUEST_TYPE_GET) {
             curl_setopt($curl, CURLOPT_HTTPGET, true);
         } else {
             curl_setopt($curl, CURLOPT_HTTPGET, false);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $requestContent);
         }
-        
+
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        
-        if( $type == self::REQUEST_TYPE_POST ) {
-            curl_setopt($curl, CURLOPT_POST, true);            
-        } else if( $type == self::REQUEST_TYPE_PUT ) {
+
+        if ($type == self::REQUEST_TYPE_POST) {
+            curl_setopt($curl, CURLOPT_POST, true);
+        } else if ($type == self::REQUEST_TYPE_PUT) {
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
         }
 
         return $curl;
     }
 
-    protected function request($path, $type = self::REQUEST_TYPE_GET, $params = '', $responseType = self::RESPONSE_TYPE_JSON ) {
-
+    protected function request($path, $type = self::REQUEST_TYPE_GET, $params = '', $responseType = self::RESPONSE_TYPE_JSON)
+    {
         $url = $this->apiUrl . $path;
 
         $headers = [];
         $headers[] = 'Accept: application/' . $responseType;
-        $headers[] = 'Content-type: application/'. $responseType .'; charset=UTF-8';
-        
-        if( $responseType == self::RESPONSE_TYPE_XML ) {
+        $headers[] = 'Content-type: application/' . $responseType . '; charset=UTF-8';
+
+        if ($responseType == self::RESPONSE_TYPE_XML) {
             $url .= '.xml';
-        } else if( $responseType != self::RESPONSE_TYPE_PDF ) {
-            $url .= '.json';            
+        } else if ($responseType != self::RESPONSE_TYPE_PDF) {
+            $url .= '.json';
         }
 
-        if( $type == self::REQUEST_TYPE_GET ) {
+        if ($type == self::REQUEST_TYPE_GET) {
             $requestContent = '';
-        } else if( is_array($params) ) {
+        } else if (is_array($params)) {
             $requestContent = json_encode($params);
         } else {
             $requestContent = $params;
         }
 
         $hashContent = $url . $this->apiLogin . $this->apiKeyName . $requestContent;
-        $headers[] = 'Authentication: IAPIS user='. $this->apiLogin .', hmac-sha1='. self::hmac(self::hexToStr($this->apiKey), $hashContent );
+        $headers[] = 'Authentication: IAPIS user=' . $this->apiLogin . ', hmac-sha1=' . self::hmac(self::hexToStr($this->apiKey), $hashContent);
 
-        if( $type == self::REQUEST_TYPE_GET && is_array($params) ) {
+        if ($type == self::REQUEST_TYPE_GET && is_array($params)) {
             $url .= '?' . http_build_query($params);
         }
 
         $curl = $this->curlInit($type, $url, $headers, $requestContent);
         $response = curl_exec($curl);
 
-        if( $responseType != self::RESPONSE_TYPE_JSON ) {
+        if ($this->isDebug) {
+            echo '<pre>';
+            var_dump([
+                'url' => $url,
+                'headers' => $headers,
+                'requestContent' => $requestContent,
+                'response' => $response
+            ]);
+            echo '</pre>';
+        }
+        if ($responseType != self::RESPONSE_TYPE_JSON) {
             return $response;
         } else {
-            return new \IFirmaApi\Model\Response( $response );
+            return new \IFirmaApi\Model\Response($response);
         }
-
     }
-
 }

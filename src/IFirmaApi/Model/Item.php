@@ -2,7 +2,8 @@
 
 namespace IFirmaApi\Model;
 
-class Item extends Base {
+class Item extends Base
+{
 
     /**
      * @param string $name
@@ -14,8 +15,8 @@ class Item extends Base {
      * @param string $vatType PRC or ZW
      * @param string $gtu
      */
-    public function __construct($name, $price, $quantity = 1, $unit = 'usł.', $vat = 0.23, $pkwiu = '', $vatType = 'PRC', $gtu = 'BRAK', $base = '') {
-
+    public function __construct($name, $price, $quantity = 1, $unit = 'usł.', $vat = 0.23, $pkwiu = '', $vatType = 'PRC', $gtu = 'BRAK', $base = '')
+    {
         $this->data['StawkaVat'] = $vat;
         $this->data['Ilosc'] = $quantity;
         $this->data['CenaJednostkowa'] = $price;
@@ -25,17 +26,18 @@ class Item extends Base {
         $this->data['TypStawkiVat'] = $vatType;
         $this->data['GTU'] = $gtu;
 
-        if(!empty($base))
-          $this->data['PodstawaPrawna'] = $base;
+        if (!empty($base)) {
+            $this->data['PodstawaPrawna'] = $base;
+        }
     }
 
     /**
      * @param string $gtu
      */
-    public function setGtu($gtu = 'BRAK') {
+    public function setGtu($gtu = 'BRAK')
+    {
         $this->data['GTU'] = $gtu;
 
         return $this;
     }
-
 }

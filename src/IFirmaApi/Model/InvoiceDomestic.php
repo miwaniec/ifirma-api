@@ -2,8 +2,8 @@
 
 namespace IFirmaApi\Model;
 
-class InvoiceDomestic extends InvoiceBase {
-
+class InvoiceDomestic extends InvoiceBase
+{
     const PATH = 'fakturakraj';
     const PAYMENT_PATH = 'prz_faktura_kraj';
 
@@ -15,9 +15,9 @@ class InvoiceDomestic extends InvoiceBase {
      * @param string $clientNipPrefix
      * @param string $clientId
      */
-    public function __construct($clientNip, $date = 'today', $daysForPay = NULL, $clientNipPrefix = '', $clientId = '' ) {
-
-        if( $date == 'today' ) {
+    public function __construct($clientNip, $date = 'today', $daysForPay = NULL, $clientNipPrefix = '', $clientId = '')
+    {
+        if ($date == 'today') {
             $date = date('Y-m-d');
         }
 
@@ -37,8 +37,8 @@ class InvoiceDomestic extends InvoiceBase {
         $this->data['NIPKontrahenta'] = $clientNip;
         $this->data['IdentyfikatorKontrahenta'] = $clientId;
 
-        if( $daysForPay != NULL ) {
-            $this->data['TerminPlatnosci'] = date('Y-m-d', strtotime($date . '+'. $daysForPay .' days'));
+        if ($daysForPay != NULL) {
+            $this->data['TerminPlatnosci'] = date('Y-m-d', strtotime($date . '+' . $daysForPay . ' days'));
         }
 
         // optional
@@ -51,5 +51,4 @@ class InvoiceDomestic extends InvoiceBase {
         $this->data['Uwagi'] = '';
         $this->data['WidocznyNumerBdo'] = '';
     }
-
 }
