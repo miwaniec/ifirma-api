@@ -25,4 +25,9 @@ abstract class InvoiceBase extends Base
     {
         $this->data['ProceduryJpk'] = $jpkProcedures;
     }
+
+    public function setNotes(string $notes)
+    {
+        $this->data['Uwagi'] = $notes;
+    }
 }
